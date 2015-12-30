@@ -33,6 +33,7 @@ object HBaseScalaDemo {
   def putTest = {
     val connection = ConnectionFactory.createConnection(config)
     val table: Table = connection.getTable(TableName.valueOf("member"))
+    table.getName
     val thePut = new Put(Bytes.toBytes("0004"))
     thePut.addColumn(Bytes.toBytes("address"), Bytes.toBytes("province"), Bytes.toBytes("浙江"))
     table.put(thePut)
@@ -54,7 +55,7 @@ object HBaseScalaDemo {
     connection.close()
   }
 
-  def createSchemaTables() = {
+/*  def createSchemaTables() = {
     val connection: Connection = ConnectionFactory.createConnection(config)
     val admin: Admin = connection.getAdmin()
     val table: HTableDescriptor = new HTableDescriptor(TableName.valueOf(TABLE_NAME))
@@ -64,7 +65,7 @@ object HBaseScalaDemo {
     println("###### Creating table #######")
     createOrOverwrite(admin, table)
     System.out.println(" Done.")
-  }
+  }*/
 
   def testScan() = {
     val connection: Connection = ConnectionFactory.createConnection(config)
