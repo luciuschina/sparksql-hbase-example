@@ -26,10 +26,10 @@
 `val conf: Configuration = HBaseConfiguration.create()`  
 然后需要获取到zookeeper的参数，有两种方法：  
 第一种方法是获取获取Linux中的Hbase安装目录中的**hbase-site.xml**这个配置文件的路径，可以这样获取：  
-`conf.addResource(new Path(System.getenv("HBASE_CONF_DIR"), "hbase-site.xml"))`
-其中"HBASE\_CONF\_DIR"是环境变量中设置的参数  
-即"cat /etc/profile"中的"export HBASE\_CONF\_DIR=/opt/hbase-1.1.2/conf"
-另二种方法在代码中直接设置"hbase.zookeeper.quorum"的值，如下：  
+`conf.addResource(new Path(System.getenv("HBASE_CONF_DIR"), "hbase-site.xml"))`  
+其中"HBASE\_CONF\_DIR"是环境变量中设置的参数。  
+即"cat /etc/profile"中的"export HBASE\_CONF\_DIR=/opt/hbase-1.1.2/conf"  
+第二种方法在代码中直接设置"hbase.zookeeper.quorum"的值，如下：  
 `conf.set("hbase.zookeeper.quorum", "centos03:2181,centos04:2181,centos05:2181")`
 
 
