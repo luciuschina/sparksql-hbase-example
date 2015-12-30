@@ -25,13 +25,15 @@
 
 就能快速的启动集群了。
 
+
 #### 数据迁移
 
 [使用sqoop将数据从mysql中迁移到Hbase中](http://blog.csdn.net/u014729236/article/details/50370385)
 
+
 #### 客户端连接HBase集群
 
-首先需要创建一个org.apache.hadoop.conf.Configuration对象:  
+首先需要创建一个_org.apache.hadoop.conf.Configuration_对象:  
 
 `val conf: Configuration = HBaseConfiguration.create()`  
 
@@ -43,9 +45,9 @@
 
 其中"HBASE\_CONF\_DIR"是环境变量中设置的参数。  
 
-即"cat /etc/profile"中的"export HBASE\_CONF\_DIR=/opt/hbase-1.1.2/conf"  
+即_cat /etc/profile_中的_export HBASE\_CONF\_DIR=/opt/hbase-1.1.2/conf_  
 
-第二种方法在代码中直接设置"hbase.zookeeper.quorum"的值，如下：  
+第二种方法在代码中直接设置_hbase.zookeeper.quorum_的值，如下：  
 
 `conf.set("hbase.zookeeper.quorum", "centos03:2181,centos04:2181,centos05:2181")`
 
