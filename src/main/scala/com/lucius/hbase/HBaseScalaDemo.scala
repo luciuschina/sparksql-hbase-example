@@ -26,7 +26,7 @@ object HBaseScalaDemo {
     // list the tables
     val listTables = admin.listTables()
     listTables.foreach(println)
-   
+
   }
 
 
