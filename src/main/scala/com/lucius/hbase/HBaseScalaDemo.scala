@@ -1,4 +1,4 @@
-package com.lucius.sparkhbase
+package com.lucius.hbase
 
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.hbase._
@@ -82,7 +82,6 @@ object HBaseScalaDemo {
     val scanner = table.getScanner(scan)
     var result = scanner.next()
     while (result != null) {
-      println("@@@@@@@@@@@@@@@")
       getColumnsInColumnFamily(result, "info").foreach(println)
       result = scanner.next()
     }
