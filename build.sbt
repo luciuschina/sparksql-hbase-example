@@ -21,3 +21,5 @@ libraryDependencies += "org.apache.hbase" % "hbase-common" % "1.1.2"
 libraryDependencies += "org.apache.hbase" % "hbase-server" % "1.1.2"
 
 
+
+
