@@ -3,7 +3,9 @@ package com.lucius.hbase
 import java.io.FileInputStream
 import java.util.Properties
 
-object Props {
+import com.typesafe.scalalogging.slf4j.LazyLogging
+
+object Props extends LazyLogging {
   private val prop = new Properties()
 
   /**
@@ -13,10 +15,10 @@ object Props {
    */
   private def getPropertyFile: String = {
     if (externalPropertiesExist) {
-      println(s"配置文件：${System.getProperty("PropPath")}")
+      logger.info(s"配置文件：${System.getProperty("PropPath")}")
       System.getProperty("PropPath")
     } else {
-      println(s"配置文件：${getClass.getResource("/").getPath() + "prop.properties"}")
+      logger.info(s"配置文件：${getClass.getResource("/").getPath() + "prop.properties"}")
       getClass().getResource("/").getPath() + "prop.properties"
     }
   }

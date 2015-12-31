@@ -1,8 +1,9 @@
 package com.lucius.hbase
 
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
-class HBaseDefTest extends FunSuite with BeforeAndAfterEach {
+class HBaseDefTest extends FunSuite with BeforeAndAfterEach with LazyLogging {
   var hbaseDef: HBaseDef = new HBaseDef
 
   override def beforeEach() {
@@ -16,10 +17,6 @@ class HBaseDefTest extends FunSuite with BeforeAndAfterEach {
   test("test PutInto") {
     hbaseDef.createOrOverwriteTable("mytb", Array("info"))
     hbaseDef.putInto("mytb", "row0001", Array(HBaseColumn("info", "name", "lucius"), HBaseColumn("info","age","26")))
-  }
-
-  test("test CreateOrOverwriteTable") {
-
   }
 
 }

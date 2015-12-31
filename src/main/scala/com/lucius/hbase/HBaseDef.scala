@@ -1,11 +1,14 @@
 package com.lucius.hbase
 
+
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.hbase.{HColumnDescriptor, TableName, HTableDescriptor, HBaseConfiguration}
 import org.apache.hadoop.hbase.client._
 import org.apache.hadoop.conf.Configuration
 
-class HBaseDef {
+class HBaseDef extends LazyLogging {
+
   var connection: Connection = getConnection
   var admin = getConnection.getAdmin
 
@@ -24,7 +27,7 @@ class HBaseDef {
     columns.foreach {
       HBaseColumn =>
       thePut.addColumn(Bytes.toBytes(HBaseColumn.family), Bytes.toBytes(HBaseColumn.qualifier), Bytes.toBytes(HBaseColumn.value))
-      println(s"执行语句：put '$tableName','$rowKey','${HBaseColumn.family}:${HBaseColumn.qualifier}','${HBaseColumn.value}'")
+      logger.info(s"执行语句:put '$tableName','$rowKey','${HBaseColumn.family}:${HBaseColumn.qualifier}','${HBaseColumn.value}'")
     }
     getTableBy(tableName).put(thePut)
 
@@ -32,7 +35,7 @@ class HBaseDef {
 
   private def getConnection = {
     if(Option(connection).isEmpty || connection.isClosed) {
-      println("建立连接：connection = ConnectionFactory.createConnection(HBaseDef.conf)")
+      logger.info("建立连接:connection = ConnectionFactory.createConnection(HBaseDef.conf)")
       connection = ConnectionFactory.createConnection(HBaseDef.conf)
     }
     connection
@@ -44,11 +47,11 @@ class HBaseDef {
    * @param columnFamilies 列族名
    */
   def createTable(tableName: String, columnFamilies: Array[String]) = {
-    println(s"执行语句：create '$tableName','${columnFamilies.mkString("','")}' ")
+    logger.info(s"执行语句:create '$tableName','${columnFamilies.mkString("','")}' ")
     val table = new HTableDescriptor(TableName.valueOf(tableName))
     columnFamilies.foreach(columnFamily => table.addFamily(new HColumnDescriptor(columnFamily)))
     admin.createTable(table)
-    println(s"成功创建表：$tableName")
+    logger.info(s"成功创建表：$tableName")
   }
 
   /**
@@ -72,7 +75,7 @@ class HBaseDef {
     if (admin.tableExists(table.getName)) {
       admin.disableTable(table.getName)
       admin.deleteTable(table.getName)
-      println(s"删除表:${table.getName}")
+      logger.info(s"删除表:${table.getName}")
     }
   }
 
@@ -80,13 +83,13 @@ class HBaseDef {
    * 注意：在该类使用完成后，需要手动调用此方法关闭连接
    */
   def closeConnection() = {
-    println("关闭连接：connection.close()")
+    logger.info("关闭连接:connection.close()")
     connection.close()
   }
 
 }
 
-object HBaseDef {
+object HBaseDef extends LazyLogging {
   val conf: Configuration = HBaseConfiguration.create()
 
   //下面两种方法取其一
@@ -94,4 +97,5 @@ object HBaseDef {
   //conf.addResource(new Path(System.getenv("HBASE_CONF_DIR"), "hbase-site.xml"))
   //方法二：
   conf.set("hbase.zookeeper.quorum", Props.get("hbase.zookeeper.quorum"))
+
 }
