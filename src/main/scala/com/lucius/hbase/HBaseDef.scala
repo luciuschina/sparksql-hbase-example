@@ -19,10 +19,15 @@ class HBaseDef {
    * @param rowKey 行键
    * @param columns 列的数组。
    */
-  def putInto(tableName: String, rowKey: String, columns: Array[HColumn]) = {
+  def putInto(tableName: String, rowKey: String, columns: Array[HBaseColumn]) = {
     val thePut = new Put(Bytes.toBytes(rowKey))
-    columns.foreach(HBaseColumn => thePut.addColumn(Bytes.toBytes(HBaseColumn.family), Bytes.toBytes(HBaseColumn.qualifier), Bytes.toBytes(HBaseColumn.value)))
+    columns.foreach {
+      HBaseColumn =>
+      thePut.addColumn(Bytes.toBytes(HBaseColumn.family), Bytes.toBytes(HBaseColumn.qualifier), Bytes.toBytes(HBaseColumn.value))
+      println(s"执行语句：put '$tableName','$rowKey','${HBaseColumn.family}:${HBaseColumn.qualifier}','${HBaseColumn.value}'")
+    }
     getTableBy(tableName).put(thePut)
+
   }
 
   private def getConnection = {
@@ -74,7 +79,7 @@ class HBaseDef {
   /**
    * 注意：在该类使用完成后，需要手动调用此方法关闭连接
    */
-  def closeConnection = {
+  def closeConnection() = {
     println("关闭连接：connection.close()")
     connection.close()
   }
@@ -89,10 +94,4 @@ object HBaseDef {
   //conf.addResource(new Path(System.getenv("HBASE_CONF_DIR"), "hbase-site.xml"))
   //方法二：
   conf.set("hbase.zookeeper.quorum", Props.get("hbase.zookeeper.quorum"))
-
-  def main(args: Array[String]) {
-    val hbaseDef = new HBaseDef()
-    hbaseDef.createOrOverwriteTable("table1er23",Array("info2"))
-    hbaseDef.closeConnection
-  }
 }
