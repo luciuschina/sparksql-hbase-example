@@ -15,8 +15,8 @@ class HBaseDefTest extends FunSuite with BeforeAndAfterEach with LazyLogging {
   }
 
   test("test PutInto") {
-    hbaseDef.createOrOverwriteTable("mytb", Array("info"))
-    hbaseDef.putInto("mytb", "row0001", Array(HBaseColumn("info", "name", "lucius"), HBaseColumn("info","age","26")))
+    hbaseDef.createOrOverwriteTable("myt", Array("info"))
+    hbaseDef.putInto("myt", "row0001", Array(HBaseColumn("info", "name", "lucius"), HBaseColumn("info","age","26")))
   }
 
 }

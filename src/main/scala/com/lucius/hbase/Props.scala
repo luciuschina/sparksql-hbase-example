@@ -18,7 +18,7 @@ object Props extends LazyLogging {
       logger.info(s"配置文件：${System.getProperty("PropPath")}")
       System.getProperty("PropPath")
     } else {
-      logger.info(s"配置文件：${getClass.getResource("/").getPath() + "prop.properties"}")
+      logger.info(s"配置文件：${getClass.getResource("/").getPath + "prop.properties"}")
       getClass().getResource("/").getPath() + "prop.properties"
     }
   }
